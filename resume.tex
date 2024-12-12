@@ -1,0 +1,265 @@
+\documentclass[10pt, letterpaper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot, % set margins without considering header and footer
+    top=1.5cm, % seperation between body and page edge from the top
+    bottom=1.5cm, % seperation between body and page edge from the bottom
+    left=2cm, % seperation between body and page edge from the left
+    right=2cm, % seperation between body and page edge from the right
+    footskip=1.0cm, % seperation between body and footer
+    % showframe % for debugging 
+]{geometry} % for adjusting page geometry
+\usepackage[explicit]{titlesec} % for customizing section titles
+\usepackage{tabularx} % for making tables with fixed width columns
+\usepackage{array} % tabularx requires this
+\usepackage[dvipsnames]{xcolor} % for coloring text
+\definecolor{primaryColor}{RGB}{2, 132, 199} % define primary color
+\usepackage{enumitem} % for customizing lists
+\usepackage{fontawesome5} % for using icons
+\usepackage{amsmath} % for math
+\usepackage[
+    pdftitle={John Doe's CV},
+    pdfauthor={John Doe},
+    pdfcreator={LaTeX with RenderCV},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref} % for links, metadata and bookmarks
+\usepackage{calc} % for calculating lengths
+\usepackage{changepage} % for one column entries (adjustwidth environment)
+\usepackage{paracol} % for two and three column entries
+\usepackage{ifthen} % for conditional statements
+\usepackage{needspace} % for avoiding page brake right after the section title
+\usepackage[default, type1]{sourcesanspro}
+
+% Some settings:
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
+\pagestyle{empty} % no header or footer
+\setcounter{secnumdepth}{0} % no section numbering
+\setlength{\parindent}{0pt} % no indentation
+\setlength{\topskip}{0pt} % no top skip
+\setlength{\columnsep}{0.15cm} % set column separation
+
+\titleformat{\section}{
+    % avoid page braking right after the section title
+    \needspace{4\baselineskip}
+    % make the font size of the section title large and color it with the primary color
+    \Large\color{primaryColor}
+}{
+}{
+}{
+    % print bold title, give 0.15 cm space and draw a line of 0.8 pt thickness
+    % from the end of the title to the end of the body
+    \textbf{#1}\hspace{0.15cm}\titlerule[0.8pt]\hspace{-0.1cm}
+}[] % section title formatting
+
+\titlespacing{\section}{
+    % left space:
+    -1pt
+}{
+    % top space:
+    0.3 cm
+}{
+    % bottom space:
+    0.2 cm
+} % section title spacing
+
+% \renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$} % custom bullet points
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0.4 cm + 10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights
+
+\newenvironment{highlightsforbulletentries}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights for bullet entries
+
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{
+        0.2 cm + 0.00001 cm
+    }{
+        0.2 cm + 0.00001 cm
+    }
+}{
+    \end{adjustwidth}
+} % new environment for one column entries
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for two column entries
+
+\newenvironment{threecolentry}[3][]{
+    \onecolentry
+    \def\thirdColumn{#3}
+    \setcolumnwidth{1 cm, \fill, 4.5 cm}
+    \begin{paracol}{3}
+    {\raggedright #2} \switchcolumn
+}{
+    \switchcolumn \raggedleft \thirdColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for three column entries
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\color{primaryColor}\linespread{1.5}
+}{
+    \par\kern\topsep
+} % new environment for the header
+
+% save the original href command in a new command:
+\let\hrefWithoutArrow\href
+
+% new command for external links:
+\renewcommand{\href}[2]{\hrefWithoutArrow{#1}{\ifthenelse{\equal{#2}{}}{ }{#2 }\raisebox{.15ex}{\footnotesize \faExternalLink*}}}
+
+\begin{document}
+    \newcommand{\AND}{\unskip
+        \cleaders\copy\ANDbox\hskip\wd\ANDbox
+        \ignorespaces
+    }
+    \newsavebox\ANDbox
+    \sbox\ANDbox{}
+
+    \begin{header}
+        \fontsize{30 pt}{30 pt}
+        \textbf{Vasanth Srivatsa}
+        \vspace{0.3 cm}
+
+        \normalsize
+        \mbox{{\footnotesize\faMapMarker*}\hspace*{0.13cm}Mysuru, India}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{mailto:hey@vsnth.dev}{{\footnotesize\faEnvelope[regular]}\hspace*{0.13cm}hey@vsnth.dev}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{tel:+919381882252}{{\footnotesize\faPhone*}\hspace*{0.13cm}+91 93818 82252}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://vsnth.dev}{{\footnotesize\faLink}\hspace*{0.13cm}vsnth.dev}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://linkedin.com/in/vsnthdev}{{\footnotesize\faLinkedinIn}\hspace*{0.13cm}vsnthdev}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://github.com/vsnthdev}{{\footnotesize\faGithub}\hspace*{0.13cm}vsnthdev}}%
+    \end{header}
+
+    \vspace{0.7 cm - 0.3 cm}
+
+    \begin{onecolentry}
+        A \textbf{seasoned self-taught developer} with over a decade of programming experience and a strong foundation in technology. Driven by a passion for building innovative software solutions, I have \textbf{successfully delivered projects to international clients} across the US, Germany, Russia, and India. My expertise and enthusiasm for technology has led me to be invited as a \textbf{guest speaker at multiple universities}, sharing knowledge and inspiring the next generation of developers.
+    \end{onecolentry}
+
+    \section{Experience}
+        \begin{twocolentry}{
+            Remote
+
+        Jan 2024 - Present
+        }
+            \textbf{Introbot}, Tech Lead
+            \begin{highlights}
+                \item Single-handedly scaled recommendation engine in Python,\newline internal dashboards in Next.js and advanced AI WhatsApp chatbot\newline from serving 4,000 to 50,000 customers
+                \item Built microservices using Docker, Google Cloud \& micro-frontends deployed on Vercel. Used by both internal staff and external clients
+            \end{highlights}
+        \end{twocolentry}
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+            Remote
+
+        Jul 2022 - Jan 2024
+        }
+            \textbf{Introbot}, Software Development Engineer
+            \begin{highlights}
+                \item Entirely re-written AI powered WhatsApp chatbot in Flask, SQLAlchemy and Python,\newline while fixing several architectural and product problems
+                \item Second point
+            \end{highlights}
+        \end{twocolentry}
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+            Remote
+
+        May 2022 - Jul 2022
+        }
+            \textbf{PrepInsta}, JavaScript Tutor
+            \begin{highlights}
+                \item First point
+                \item Second point
+            \end{highlights}
+        \end{twocolentry}
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+            Remote
+
+        Dec 2020 - Aug 2021
+        }
+            \textbf{Self-employed}, Freelance Tutor
+            \begin{highlights}
+                \item First point
+                \item Second point
+            \end{highlights}
+        \end{twocolentry}
+    \section{Projects}
+        \begin{twocolentry}{
+            \href{https://github.com/sinaatalay/rendercv}{github.com/name/repo}
+        }
+            \textbf{Multi-User Drawing Tool}
+            \begin{highlights}
+                \item Developed an electronic classroom where multiple users can simultaneously view and draw on a "chalkboard" with each person's edits synchronized
+                \item Tools Used: C++, MFC
+            \end{highlights}
+        \end{twocolentry}
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+            \href{https://github.com/sinaatalay/rendercv}{github.com/name/repo}
+        }
+            \textbf{Synchronized Desktop Calendar}
+            \begin{highlights}
+                \item Developed a desktop calendar with globally shared and synchronized calendars, allowing users to schedule meetings with other users
+                \item Tools Used: C\#, .NET, SQL, XML
+            \end{highlights}
+        \end{twocolentry}
+        \vspace{0.2 cm}
+        \section{Speaker Sessions}
+        \begin{samepage}
+            \begin{twocolentry}{
+                Jan 2004
+            }
+                \textbf{3D Finite Element Analysis of No-Insulation Coils}
+
+                \vspace{0.10 cm}
+
+                \mbox{Frodo Baggins}, \mbox{\textbf{\textit{John Doe}}}, \mbox{Samwise Gamgee}
+                \vspace{0.10 cm}
+
+                \href{https://doi.org/10.1109/TASC.2023.3340648}{10.1109/TASC.2023.3340648}
+            \end{twocolentry}
+        \end{samepage}
+\end{document}
